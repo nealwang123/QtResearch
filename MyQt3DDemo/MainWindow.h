@@ -14,7 +14,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPropertyAnimation>
 #include <Qt3DCore/QEntity>
 #include <Qt3DCore/QTransform>
 #include <Qt3DExtras/QFirstPersonCameraController>
@@ -23,7 +22,8 @@
 #include <Qt3DRender/QCamera>
 #include <Qt3DRender/QPointLight>
 
-#include "CoubilNodt.h"
+#include "MyCarEntity.h"
+#include "RoadNodt.h"
 
 namespace Ui
 {
@@ -53,11 +53,11 @@ private:
     Qt3DCore::QEntity* mRootEntity;
     Qt3DRender::QCamera* mCamear;
     Qt3DExtras::QFirstPersonCameraController* mCamearController;
-    CoubilNodt* mCoubil;
     Qt3DCore::QEntity* mLightEntity;
     Qt3DRender::QPointLight* mLight;
     Qt3DCore::QTransform* mLightTransform;
-    QPropertyAnimation* mRotateTransformAnimation;
+    RoadNodt* mRoadNodt;
+    MyCarEntity* mCar;
 };
 
 #endif // MAINWINDOW_H

@@ -20,6 +20,7 @@ CoubilNodt::CoubilNodt(Qt3DCore::QEntity* rootEntity)
     , mRotationZ(0)
     , mIsDrag(false)
 {
+
     // Cuboid shape data
     mCuboid = new Qt3DExtras::QCuboidMesh;
 
@@ -28,15 +29,25 @@ CoubilNodt::CoubilNodt(Qt3DCore::QEntity* rootEntity)
     mCuboidTransform->setScale(1.0f);
     //    cuboidTransform->setRotation(QQuaternion(0, 0,0,60));
     mCuboidTransform->setRotationZ(60);
-    mCuboidTransform->setTranslation(QVector3D(5.0f, -4.0f, 0.0f));
+    mCuboidTransform->setTranslation(QVector3D(0.0f, 0.0f, 0.0f));
 
     Qt3DExtras::QPhongMaterial* cuboidMaterial = new Qt3DExtras::QPhongMaterial;
-    cuboidMaterial->setDiffuse(QColor(QRgb(0x00ff00)));
+    cuboidMaterial->setDiffuse(QColor(QRgb(0xFFFF00)));
 
     mCuboidEntity = new Qt3DCore::QEntity(mRootEntity);
     mCuboidEntity->addComponent(mCuboid);
     mCuboidEntity->addComponent(cuboidMaterial);
     mCuboidEntity->addComponent(mCuboidTransform);
+
+    // set animation
+    mRotateTransformAnimation = new QPropertyAnimation;
+    mRotateTransformAnimation->setTargetObject(this);
+    mRotateTransformAnimation->setDuration(2000);
+    mRotateTransformAnimation->setPropertyName("angle");
+    mRotateTransformAnimation->setProperty("direct", "Z");
+    mRotateTransformAnimation->setStartValue(QVariant::fromValue(1));
+    mRotateTransformAnimation->setEndValue(QVariant::fromValue(-20));
+    mRotateTransformAnimation->setLoopCount(-1);
 }
 
 CoubilNodt::~CoubilNodt()
@@ -44,33 +55,7 @@ CoubilNodt::~CoubilNodt()
     delete mCuboidTransform;
 }
 
-void CoubilNodt::setAngle(float angle)
-{
-    if (!mIsDrag)
-    {
-        m_angle = angle;
-        if (mDirect == "X")
-        {
-            rotation(RotationDirection::ForX, angle);
-        }
-        else if (mDirect == "Y")
-        {
-            rotation(RotationDirection::ForY, angle);
-        }
-        else if (mDirect == "Z")
-        {
-            rotation(RotationDirection::ForZ, angle);
-        }
-    }
-    emit angleChanged();
-}
-
-float CoubilNodt::angle() const
-{
-    return m_angle;
-}
-
-void CoubilNodt::rotation(RotationDirection direction, float ros)
+void CoubilNodt::rotation(RotationDirection direction, float ros) const
 {
     switch (direction)
     {
@@ -84,6 +69,11 @@ void CoubilNodt::rotation(RotationDirection direction, float ros)
             mCuboidTransform->setRotationZ(ros);
             break;
     }
+}
+
+void CoubilNodt::moveTo(const QVector3D& pos) const
+{
+    mCuboidTransform->setTranslation(pos);
 }
 
 void CoubilNodt::scalTo(int value)
@@ -109,6 +99,16 @@ void CoubilNodt::setDirect(const QString& direct)
 {
     mDirect = direct;
     emit directChanged();
+}
+
+void CoubilNodt::startAnimation()
+{
+    mRotateTransformAnimation->start();
+}
+
+void CoubilNodt::stopAnimation()
+{
+    mRotateTransformAnimation->stop();
 }
 
 bool CoubilNodt::getIsDrag() const

@@ -13,6 +13,7 @@
 #ifndef COUBILNODT_H
 #define COUBILNODT_H
 
+#include <QPropertyAnimation>
 #include <Qt3DCore/QEntity>
 #include <Qt3DCore/QTransform>
 #include <Qt3DExtras/QCuboidMesh>
@@ -32,15 +33,16 @@ class CoubilNodt : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString direct READ getDirect WRITE setDirect NOTIFY directChanged)
-    Q_PROPERTY(float angle READ angle WRITE setAngle NOTIFY angleChanged)
+    //    Q_PROPERTY(float angle READ angle WRITE setAngle NOTIFY angleChanged)
 public:
     explicit CoubilNodt(Qt3DCore::QEntity* rootEntity);
     virtual ~CoubilNodt();
 
-    void setAngle(float angle);
+    void setAngle(const QVector3D& angle);
     float angle() const;
 
-    void rotation(RotationDirection direction, float ros);
+    void rotation(RotationDirection direction, float ros) const;
+    void moveTo(const QVector3D& pos) const;
     void scalTo(int value);
     void scalTo(const QVector3D& scale);
 
@@ -49,6 +51,9 @@ public:
 
     const QString& getDirect() const;
     void setDirect(const QString& direct);
+
+    void startAnimation();
+    void stopAnimation();
 
 Q_SIGNALS:
     void angleChanged();
@@ -66,8 +71,8 @@ private:
     int mRotationY;
     int mRotationZ;
     bool mIsDrag;
-    float m_angle;
     QString mDirect;
+    QPropertyAnimation* mRotateTransformAnimation;
 };
 
 #endif // COUBILNODT_H

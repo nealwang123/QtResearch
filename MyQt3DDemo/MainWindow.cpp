@@ -26,12 +26,12 @@ MainWindow::MainWindow(QWidget* parent)
     , mLightEntity(new Qt3DCore::QEntity(mRootEntity))
     , mLight(new Qt3DRender::QPointLight(mLightEntity))
     , mLightTransform(new Qt3DCore::QTransform(mLightEntity))
-    , mCoubil(new CoubilNodt(mRootEntity))
     , mCamearController(new Qt3DExtras::QFirstPersonCameraController(mRootEntity))
+    , mRoadNodt(new RoadNodt(mRootEntity))
+    , mCar(new MyCarEntity(mRootEntity))
 {
-    qRegisterMetaType<RotationDirection>("RotationDirection");
     ui->setupUi(this);
-    mView->defaultFrameGraph()->setClearColor(QColor(QRgb(0x000000)));
+    mView->defaultFramegraph()->setClearColor(QColor(QRgb(0x000000)));
     QWidget* container = QWidget::createWindowContainer(mView);
     QSize screenSize = mView->screen()->size();
     container->setMinimumSize(QSize(200, 100));
@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     mCamear = mView->camera();
     mCamear->lens()->setPerspectiveProjection(45.0f, 16.0 / 9.0, 0.1f, 1000.0f);
-    mCamear->setPosition(QVector3D(0, 0, 20));
+    mCamear->setPosition(QVector3D(0, 0, 100));
     mCamear->setViewCenter(QVector3D(0, 0, 0));
     mCamear->setUpVector(QVector3D(0, 1, 0));
 
@@ -59,15 +59,7 @@ MainWindow::MainWindow(QWidget* parent)
     mView->registerAspect(mInput);
     mView->setRootEntity(mRootEntity);
 
-    // set animation
-    mRotateTransformAnimation = new QPropertyAnimation(mLightTransform);
-    mRotateTransformAnimation->setTargetObject(mCoubil);
-    mRotateTransformAnimation->setDuration(2000);
-    mRotateTransformAnimation->setPropertyName("angle");
-    mRotateTransformAnimation->setProperty("direct", "Z");
-    mRotateTransformAnimation->setStartValue(QVariant::fromValue(0));
-    mRotateTransformAnimation->setEndValue(QVariant::fromValue(360));
-    mRotateTransformAnimation->setLoopCount(-1);
+    mCar->moveTo(QVector3D(0, 0, 100));
 }
 
 MainWindow::~MainWindow()
@@ -88,37 +80,29 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_rotationSlider_valueChanged(int value)
 {
-    QString baseDirect = ui->directComboBox->currentText().trimmed();
-    if (baseDirect == "X")
-    {
-        mCoubil->rotation(RotationDirection::ForX, value);
-    }
-    else if (baseDirect == "Y")
-    {
-        mCoubil->rotation(RotationDirection::ForY, value);
-    }
-    else if (baseDirect == "Z")
-    {
-        mCoubil->rotation(RotationDirection::ForZ, value);
-    }
 }
 
 void MainWindow::on_scalSlider_valueChanged(int value)
 {
-    mCoubil->scalTo(value);
+    mRoadNodt->moveTo(QVector3D(0, 0, -value));
 }
 
 void MainWindow::on_directComboBox_currentIndexChanged(const QString& arg1)
 {
-    mCoubil->setProperty("direct", arg1);
 }
 
 void MainWindow::on_startBtn_clicked()
 {
-    mRotateTransformAnimation->start();
+    if (mCar != Q_NULLPTR)
+    {
+        mCar->startRun();
+    }
 }
 
 void MainWindow::on_endBtn_clicked()
 {
-    mRotateTransformAnimation->stop();
+    if (mCar != Q_NULLPTR)
+    {
+        mCar->stopRun();
+    }
 }
