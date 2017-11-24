@@ -21,6 +21,7 @@
 #include <Qt3DExtras/QFirstPersonCameraController>
 #include <Qt3DExtras/QForwardRenderer>
 #include <Qt3DExtras/QOrbitCameraController>
+#include <Qt3DExtras/QPhongAlphaMaterial>
 #include <Qt3DExtras/QPhongMaterial>
 #include <Qt3DExtras/Qt3DWindow>
 #include <Qt3DInput/QInputAspect>
@@ -28,6 +29,7 @@
 #include <Qt3DRender/QPointLight>
 
 #include <QMatrix4x4>
+#include <Qt3DExtras/QCuboidMesh>
 #include <Qt3DExtras/QSphereMesh>
 #include <Qt3DExtras/QTorusMesh>
 
@@ -80,6 +82,7 @@ private:
     void initView();
     void createTorusEntity();
     void createSphereEntity();
+    void createCuboidEntity();
 
 private:
     Ui::MainWindow* ui;

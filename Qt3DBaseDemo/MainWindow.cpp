@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     createTorusEntity();
     createSphereEntity();
+    createCuboidEntity();
 }
 
 MainWindow::~MainWindow()
@@ -120,6 +121,8 @@ void MainWindow::createTorusEntity()
     // set meterial
     Qt3DExtras::QPhongMaterial* torusMaterial = new Qt3DExtras::QPhongMaterial();
     torusMaterial->setDiffuse(QColor(QRgb(0xbeb32b)));
+    //    torusMaterial->setAmbient(QColor(QRgb(0xFFFF00)));
+    //    torusMaterial->setSpecular(QColor(QRgb(0xCCCCCC)));
 
     //
     Qt3DCore::QEntity* m_torusEntity = new Qt3DCore::QEntity(m_rootEntity);
@@ -147,6 +150,53 @@ void MainWindow::createSphereEntity()
     m_sphereEntity->addComponent(sphereMesh);
     m_sphereEntity->addComponent(sphereMaterial);
     m_sphereEntity->addComponent(m_sphereTransform);
+}
+
+void MainWindow::createCuboidEntity()
+{
+    Qt3DExtras::QCuboidMesh* cuboidMash = new Qt3DExtras::QCuboidMesh;
+    cuboidMash->setShareable(true);
+    cuboidMash->setXExtent(4);
+    cuboidMash->setYExtent(4);
+    cuboidMash->setZExtent(8);
+
+    Qt3DCore::QTransform* cuboidTransform = new Qt3DCore::QTransform;
+    cuboidTransform->setScale(1.0f);
+    cuboidTransform->setRotation(
+            QQuaternion::fromAxisAndAngle(QVector3D(0, 1, 0), 25));
+    cuboidTransform->setTranslation(QVector3D(5, 5, 0));
+
+    Qt3DExtras::QPhongAlphaMaterial* cuboidMaterial =
+            new Qt3DExtras::QPhongAlphaMaterial();
+    cuboidMaterial->setDiffuse(QColor(QRgb(0xFFFFFF)));
+    cuboidMaterial->setAlpha(0.3);
+    cuboidMaterial->setShareable(true);
+    //    cuboidMaterial->setAmbient(QColor(QRgb(0xFFFF00)));
+
+    Qt3DCore::QEntity* m_cuboidEntity = new Qt3DCore::QEntity(m_rootEntity);
+    m_cuboidEntity->addComponent(cuboidMash);
+    m_cuboidEntity->addComponent(cuboidMaterial);
+    m_cuboidEntity->addComponent(cuboidTransform);
+
+    // small cuboid
+    Qt3DExtras::QCuboidMesh* cuboidMash1 = new Qt3DExtras::QCuboidMesh;
+    cuboidMash1->setXExtent(2);
+    cuboidMash1->setYExtent(2);
+    cuboidMash1->setZExtent(6);
+
+    Qt3DCore::QTransform* cuboidTransform1 = new Qt3DCore::QTransform;
+    cuboidTransform1->setScale(1.0f);
+    cuboidTransform1->setRotation(
+            QQuaternion::fromAxisAndAngle(QVector3D(0, 1, 0), 25));
+    cuboidTransform1->setTranslation(QVector3D(5, 5, 0));
+
+    Qt3DExtras::QPhongMaterial* cuboidMaterial1 = new Qt3DExtras::QPhongMaterial();
+    cuboidMaterial1->setDiffuse(QColor(QRgb(0x0000ff)));
+
+    Qt3DCore::QEntity* m_cuboidEntity1 = new Qt3DCore::QEntity(m_rootEntity);
+    m_cuboidEntity1->addComponent(cuboidMash1);
+    m_cuboidEntity1->addComponent(cuboidMaterial1);
+    m_cuboidEntity1->addComponent(cuboidTransform1);
 }
 
 int MainWindow::getAngle() const

@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget* parent)
     , mCar(new MyCarEntity(mRootEntity))
 {
     ui->setupUi(this);
-    mView->defaultFramegraph()->setClearColor(QColor(QRgb(0x000000)));
+    mView->defaultFrameGraph()->setClearColor(QColor(QRgb(0x000000)));
     QWidget* container = QWidget::createWindowContainer(mView);
     QSize screenSize = mView->screen()->size();
     container->setMinimumSize(QSize(200, 100));
