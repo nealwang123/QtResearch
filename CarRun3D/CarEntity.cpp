@@ -52,6 +52,10 @@ CarEntity::CarEntity(Qt3DCore::QNode* parent)
 
 CarEntity::~CarEntity()
 {
+    delete m_mesh;
+    delete m_material;
+    delete m_transform;
+    delete m_rotateTransfromAnimation;
 }
 
 void CarEntity::startRun(bool ok)

@@ -41,4 +41,7 @@ RoadEntity::RoadEntity(QNode* parent)
 
 RoadEntity::~RoadEntity()
 {
+    delete m_mesh;
+    delete m_material;
+    delete m_transform;
 }

@@ -20,9 +20,9 @@ TrifficSign::TrifficSign(Qt3DCore::QNode* parent)
 {
     m_mesh = new Qt3DExtras::QCuboidMesh;
     m_mesh->setShareable(true);
-    m_mesh->setXExtent(1);
-    m_mesh->setYExtent(4);
-    m_mesh->setZExtent(1);
+    m_mesh->setXExtent(0.5);
+    m_mesh->setYExtent(2);
+    m_mesh->setZExtent(0.5);
 
     m_transform = new Qt3DCore::QTransform;
     m_transform->setScale(1);
@@ -40,6 +40,9 @@ TrifficSign::TrifficSign(Qt3DCore::QNode* parent)
 
 TrifficSign::~TrifficSign()
 {
+    delete m_mesh;
+    delete m_material;
+    delete m_transform;
 }
 
 void TrifficSign::setPosition(const QVector3D& pos)

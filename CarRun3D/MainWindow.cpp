@@ -96,11 +96,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::setTriffic()
 {
-    int triCount = glob_roadLength / 50;
+    int triCount = glob_roadLength / 20;
     for (int i = 0; i < triCount; ++i)
     {
         TrifficSign* tri = new TrifficSign(m_rootEntity);
-        tri->setPosition(QVector3D(-glob_roadWidth / 2 - 0.5, 2, -i * 100));
+        tri->setPosition(QVector3D(-glob_roadWidth / 2 + 0.25, 2, -i * 20));
     }
 }
 
