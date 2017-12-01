@@ -43,7 +43,8 @@ MainWindow::MainWindow(QWidget* parent)
     // camear
     m_camear = m_view->camera();
     m_camear->lens()->setPerspectiveProjection(45.0f, 16.0 / 9.0f, 0.01, 1000.0f);
-    m_camear->setPosition(QVector3D(0, 45, 10));
+    //    m_camear->setPosition(QVector3D(0, 45, 10));
+    m_camear->setPosition(QVector3D(9.69f, 15.62f, -3.39f));
     m_camear->setViewCenter(QVector3D(0, 0, 0));
     m_camear->setUpVector(QVector3D(0, 1, 0));
 
@@ -99,7 +100,7 @@ void MainWindow::setTriffic()
     int triCount = glob_roadLength / 20;
     for (int i = 0; i < triCount; ++i)
     {
-        TrifficSign* tri = new TrifficSign(m_rootEntity);
+        TrifficSign* tri = new TrifficSign(QString("%1KM").arg(i), m_rootEntity);
         tri->setPosition(QVector3D(-glob_roadWidth / 2 + 0.25, 2, -i * 20));
     }
 }

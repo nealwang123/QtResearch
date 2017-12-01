@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += 3dcore 3drender 3dinput 3dextras
+QT       += 3dcore 3drender 3dinput 3dextras 3drender
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -39,3 +39,6 @@ HEADERS += \
 
 FORMS += \
         MainWindow.ui
+
+RESOURCES += \
+    source.qrc
